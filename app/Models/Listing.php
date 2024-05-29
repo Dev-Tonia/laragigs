@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Multitenancy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
 {
-    use HasFactory;
-
-    protected $fillable = ['title', 'company', 'website', 'email', 'tags', 'location', 'description'];
+    use HasFactory, Multitenancy;
+    protected $fillable = ['title', 'company', 'website', 'email', 'tags', 'location', 'description', 'logo'];
 
     public function scopeFilter($query, array $filters)
     {
@@ -22,5 +22,12 @@ class Listing extends Model
                 ->orWhere('description', 'like', '%' .  request('search') . '%')
                 ->orWhere('tags', 'like', '%' .  request('search') . '%');
         }
+    }
+
+
+    // Relationship to user in the database
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

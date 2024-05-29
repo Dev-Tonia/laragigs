@@ -38,14 +38,14 @@ class ListingController extends Controller
         /*
     How to check if a wildcard exist 
      how to manually do implicit route model route binding.
-    // $listing = Listing::find($id);
-    // if ($listing) {
-    //     return view('listing', [
-    //         'listing' => $listing
-    //     ]);
-    // } else {
-    //     abort('404');
-    // }
+    $listing = Listing::find($id);
+    if ($listing) {
+        return view('listing', [
+            'listing' => $listing
+        ]);
+    } else {
+        abort('404');
+    }
     */
     }
 
@@ -75,6 +75,9 @@ class ListingController extends Controller
         if ($request->hasFile('logo')) {
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
+
+        // $formFields['user_id'] = auth()->id();
+
 
         Listing::create($formFields);
         return redirect('/')->with('message', 'Listing created successfully');
